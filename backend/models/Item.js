@@ -6,7 +6,7 @@ const itemSchema = new mongoose.Schema({
   category: String,
   price: Number,
   status: String,
-  godown_id: mongoose.Schema.Types.ObjectId,
+  godown_id: String,
   brand: String,
   attributes: Object,
   image_url: String
