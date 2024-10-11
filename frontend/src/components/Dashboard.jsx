@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
-import godownsData from '../assets/test/godowns.json'; // Load godown data
-import itemsData from '../assets/test/godowns.json'; // Load items data
-import './Dashboard.css'; // Import the CSS file
+import godownsData from '../assets/test/godowns.json';
+import itemsData from '../assets/test/items.json';
+import './Dashboard.css';
+import './Itemdetails.css';
 
-// Tree Node component
-const TreeNode = ({ node, items, onSelectItem }) => {
+const TreeNode = ({ node, godowns, items, onSelectItem }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Filter items that belong to this godown
   const godownItems = items.filter(item => item.godown_id === node.id);
+  
+  const subGodowns = godowns.filter(godown => godown.parent_godown === node.id);
 
   return (
     <li className="tree-node">
-      <span className={`node-label ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+      <span
+        className={`node-label ${isOpen ? 'open' : ''}`}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
         {isOpen ? '📂' : '📁'} {node.name}
       </span>
       {isOpen && (
@@ -22,28 +27,33 @@ const TreeNode = ({ node, items, onSelectItem }) => {
               {item.name}
             </li>
           ))}
+          {subGodowns.map(subGodown => (
+            <TreeNode
+              key={subGodown.id}
+              node={subGodown}
+              godowns={godowns}
+              items={items}
+              onSelectItem={onSelectItem}
+            />
+          ))}
         </ul>
       )}
     </li>
   );
 };
 
-// Tree View component
 const TreeView = ({ godowns, items, onSelectItem }) => {
   const generateTree = (parentId) => {
     return godowns
       .filter(godown => godown.parent_godown === parentId)
       .map(godown => (
-        <TreeNode key={godown.id} node={godown} items={items} onSelectItem={onSelectItem}>
-          {generateTree(godown.id)}
-        </TreeNode>
+        <TreeNode key={godown.id} node={godown} godowns={godowns} items={items} onSelectItem={onSelectItem} />
       ));
   };
 
   return <ul className="tree-view">{generateTree(null)}</ul>;
 };
 
-// Item Details component
 const ItemDetails = ({ item }) => {
   if (!item) return <div className="item-details empty">Select an item to see details</div>;
 
@@ -66,7 +76,6 @@ const ItemDetails = ({ item }) => {
   );
 };
 
-// Main App Component
 const Dashboard = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
