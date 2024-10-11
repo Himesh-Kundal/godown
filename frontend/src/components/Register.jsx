@@ -1,38 +1,36 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Register.css';  // Import the CSS file
 
 const bcknd = import.meta.env.VITE_BACKEND_URL;
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Backend URL:', bcknd);  // Debugging
-
     try {
-      // Send a POST request to the backend to register the user
       const response = await axios.post(`${bcknd}/api/auth/register`, {
         email,
         password
       });
 
-      console.log('Registration successful:', response.data);
-      alert('Registration successful!');
+      alert('Registration successful! You can now log in.');
+      navigate('/login');  // Redirect to the login page after successful registration
     } catch (error) {
-      console.error('Error registering:', error);
       alert('Error Registering: ' + (error.response?.data?.message || error.message));
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>  {/* Fix the heading */}
+    <div className="register-container">
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email: </label>
+        <div className="form-group">
+          <label>Email:</label>
           <input
             type="email"
             value={email}
@@ -40,8 +38,8 @@ function Register() {
             required
           />
         </div>
-        <div>
-          <label>Password: </label>
+        <div className="form-group">
+          <label>Password:</label>
           <input
             type="password"
             value={password}
@@ -49,8 +47,11 @@ function Register() {
             required
           />
         </div>
-        <button type="submit">Register</button>  {/* Fix the button text */}
+        <button type="submit" className="register-btn">Register</button>
       </form>
+      <p>
+        Already have an account? <a href="/login">Login</a>
+      </p>
     </div>
   );
 }
