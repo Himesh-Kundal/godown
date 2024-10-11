@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';  // Import the CSS file
+import './Login.css';
 
 const bcknd = import.meta.env.VITE_BACKEND_URL;
 

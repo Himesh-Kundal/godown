@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Register.css';  // Import the CSS file
+import './Register.css';
 
 const bcknd = import.meta.env.VITE_BACKEND_URL;
 
@@ -19,7 +19,7 @@ function Register() {
       });
 
       alert('Registration successful! You can now log in.');
-      navigate('/login');  // Redirect to the login page after successful registration
+      navigate('/login');
     } catch (error) {
       alert('Error Registering: ' + (error.response?.data?.message || error.message));
     }
