@@ -6,18 +6,22 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /etc/letsencrypt/live:/etc/letsencrypt/live
+      - "80:80"    # Expose HTTP port
+      - "443:443"  # Expose HTTPS port
     depends_on:
-      - backend
+      - backend    # Wait for the backend service to be available
+    environment:
+      - NODE_ENV=production  # Set the environment variable if needed
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3069:3069"
+      - "3069:3069"  # Expose backend port
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=production  # Set the environment variable if needed
+
+networks:
+  default:
+    driver: bridge
