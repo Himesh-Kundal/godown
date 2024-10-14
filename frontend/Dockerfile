@@ -23,8 +23,8 @@ FROM nginx:alpine AS production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # Copy SSL certificates into the image
-COPY ../../../etc/letsencrypt/live/godown.himeshkundal.tech/fullchain.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
-COPY ../../../etc/letsencrypt/live/godown.himeshkundal.tech/privkey.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
+COPY ../../../../etc/letsencrypt/live/godown.himeshkundal.tech/fullchain.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
+COPY ../../../../etc/letsencrypt/live/godown.himeshkundal.tech/privkey.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
 
 # Copy custom NGINX configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
