@@ -22,16 +22,11 @@ FROM nginx:alpine AS production-stage
 # Copy built files from the build stage to NGINX
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-# Copy SSL certificates into the image
-COPY ../../../../etc/letsencrypt/live/godown.himeshkundal.tech/fullchain.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
-COPY ../../../../etc/letsencrypt/live/godown.himeshkundal.tech/privkey.pem /etc/letsencrypt/live/godown.himeshkundal.tech/
-
 # Copy custom NGINX configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose ports
 EXPOSE 80
-EXPOSE 443
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
