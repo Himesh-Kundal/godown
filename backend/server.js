@@ -10,7 +10,12 @@ const locationRoutes = require('./routes/locations');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://godown.himeshkundal.tech', // Update with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}));
+
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
