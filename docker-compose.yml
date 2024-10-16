@@ -1,26 +1,23 @@
-version: '3.8'
-
+version: '3'
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"    # Expose HTTP port
-    depends_on:
-      - backend    # Wait for the backend service to be available
-    environment:
-      - NODE_ENV=production  # Set the environment variable if needed
+      - "3068:80"
+    networks:
+      - app-network
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3069:3069"  # Expose backend port
-    environment:
-      - NODE_ENV=production  # Set the environment variable if needed
+      - "3069:80"
+    networks:
+      - app-network
 
 networks:
-  default:
+  app-network:
     driver: bridge
