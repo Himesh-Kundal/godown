@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requestsimport godownsData from '../assets/test/godowns.json';
+import axios from 'axios';
 import './Dashboard.css';
 import './Itemdetails.css';
 
@@ -86,22 +86,22 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('token'); // Get the token from localStorage
+      const token = localStorage.getItem('token'); 
 
       const axiosInstance = axios.create({
         baseURL: bcknd,
         headers: {
-          Authorization: token // Set the Authorization header
+          Authorization: token 
         }
       });
 
       const [godownsResponse, itemsResponse] = await Promise.all([
-        axiosInstance.get(`${bcknd}/api/locations`), // Fetch godowns
-        axiosInstance.get(`${bcknd}/api/items`) // Fetch items
+        axiosInstance.get(`${bcknd}/api/locations`),
+        axiosInstance.get(`${bcknd}/api/items`) 
       ]);
 
-      setGodowns(godownsResponse.data); // Set godowns state
-      setItems(itemsResponse.data); // Set items state
+      setGodowns(godownsResponse.data);
+      setItems(itemsResponse.data);
     } catch (err) {
       setError('Failed to load data');
     } finally {
@@ -110,7 +110,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchData(); // Fetch data immediately on mount
+    fetchData();
   }, []);
 
   if (loading) return <div>Loading...</div>;
